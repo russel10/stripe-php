@@ -29,13 +29,37 @@ composer install
 
 ### 2. Configurar chaves do Stripe
 
-Edite o arquivo `secrets.php` com suas chaves do Stripe:
+Crie o arquivo `.env` na raiz do projeto com suas chaves do Stripe:
 
-```php
-<?php
-$stripeSecretKey = 'sk_test_sua_chave_secreta_aqui';
-$webhookSecret   = 'whsec_seu_webhook_secret_aqui';
+```bash
+# Copie o arquivo de exemplo
+cp .env.example .env
 ```
+
+Edite o arquivo `.env` com suas chaves reais:
+
+```env
+# Stripe Configuration
+STRIPE_SECRET_KEY=sk_test_sua_chave_secreta_aqui
+STRIPE_PUBLISHABLE_KEY=pk_test_sua_chave_publicavel_aqui
+STRIPE_WEBHOOK_SECRET=whsec_seu_webhook_secret_aqui
+
+# Environment
+APP_ENV=development
+```
+
+**⚠️ Importante:**
+
+- Nunca commite o arquivo `.env` no Git
+- Use chaves de teste para desenvolvimento
+- Use chaves de produção apenas em ambiente seguro
+
+#### Como obter suas chaves do Stripe:
+
+1. **Acesse o [Dashboard do Stripe](https://dashboard.stripe.com/)**
+2. **Para desenvolvimento**: Use as chaves de **teste** (começam com `sk_test_` e `pk_test_`)
+3. **Para produção**: Use as chaves **live** (começam com `sk_live_` e `pk_live_`)
+4. **Webhook Secret**: Configure um webhook no dashboard e copie o secret (começa com `whsec_`)
 
 ### 3. Executar o servidor
 
@@ -104,7 +128,9 @@ stripe trigger payment_intent.succeeded
 │   └── log/
 │       ├── stripe_create.log
 │       └── stripe_webhook.log
-├── secrets.php           # Configurações sensíveis
+├── config.php            # Carregador de configurações
+├── .env                  # Variáveis de ambiente (não commitar)
+├── .env.example          # Exemplo de configuração
 └── composer.json         # Dependências PHP
 ```
 
@@ -178,12 +204,15 @@ Endpoint para receber webhooks do Stripe.
 
 ## 🛡️ Segurança
 
-- ✅ Validação de entrada rigorosa
-- ✅ Sanitização de dados
-- ✅ Headers de segurança
-- ✅ Verificação de assinatura de webhooks
-- ✅ Logging de todas as operações
-- ✅ Tratamento de erros sem exposição de dados sensíveis
+- ✅ **Chaves seguras**: Secret key apenas no backend, publicável injetada dinamicamente
+- ✅ **Variáveis de ambiente**: Configurações sensíveis no arquivo `.env`
+- ✅ **Validação de entrada** rigorosa
+- ✅ **Sanitização de dados**
+- ✅ **Headers de segurança**
+- ✅ **Verificação de assinatura** de webhooks
+- ✅ **Logging estruturado** de todas as operações
+- ✅ **Tratamento de erros** sem exposição de dados sensíveis
+- ✅ **Gitignore configurado** para proteger arquivos sensíveis
 
 ## 📚 Recursos Adicionais
 

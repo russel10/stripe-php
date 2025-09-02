@@ -1,7 +1,7 @@
 <?php
 
 require_once '../vendor/autoload.php';
-require_once '../secrets.php';
+require_once '../config.php';
 
 // Headers de segurança
 header('Content-Type: application/json');
@@ -117,7 +117,7 @@ try {
 
     // Verificar assinatura do webhook
     try {
-        $event = \Stripe\Webhook::constructEvent($payload, $sig_header, $webhookSecret);
+        $event = \Stripe\Webhook::constructEvent($payload, $sig_header, $stripeWebhookSecret);
     } catch (\UnexpectedValueException $e) {
         logEvent('error', 'Invalid payload', ['error' => $e->getMessage()]);
         http_response_code(400);

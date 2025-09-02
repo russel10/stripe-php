@@ -5,7 +5,7 @@
  */
 
 require_once '../vendor/autoload.php';
-require_once '../secrets.php';
+require_once '../config.php';
 
 use Stripe\Exception\ApiErrorException;
 
@@ -274,37 +274,3 @@ try {
     echo errorResponse('Erro interno do servidor', 500);
 }
 
-/**
- * Funções auxiliares para testes
- */
-
-// Função para testar a criação via CLI
-// if (php_sapi_name() === 'cli' && isset($argv[1]) && $argv[1] === 'test') {
-//     echo "🧪 Testando criação de PaymentIntent...\n\n";
-
-//     // Simular dados de teste
-//     $testData = [
-//         'items' => [
-//             ['amount' => 10000] // R$ 100,00
-//         ],
-//         'order_id' => 'test_order_' . time(),
-//         'customer_email' => 'test@example.com'
-//     ];
-
-//     echo "📝 Dados de teste:\n";
-//     echo json_encode($testData, JSON_PRETTY_PRINT) . "\n\n";
-
-//     // Validar dados
-//     $errors = validateInput((object) $testData);
-//     if (!empty($errors)) {
-//         echo "❌ Erros de validação:\n";
-//         foreach ($errors as $error) {
-//             echo "   - $error\n";
-//         }
-//         exit(1);
-//     }
-
-//     echo "✅ Validação passou\n";
-//     echo "💰 Valor calculado: R$ " . number_format(calculateOrderAmount($testData['items']) / 100, 2, ',', '.') . "\n";
-//     echo "\n🎉 Teste de validação concluído com sucesso!\n";
-// }
