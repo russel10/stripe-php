@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Checkout - Pagamento Seguro</title>
+    <meta name="description" content="Processamento seguro de pagamentos" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="checkout.css" />
+    <script src="https://js.stripe.com/basil/stripe.js"></script>
+    <script src="checkout.js" defer></script>
+  </head>
+  <body>
+    <!-- Toast de notificações -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- Display a payment form -->
+    <form id="payment-form" novalidate>
+      <h1>Finalizar Pagamento</h1>
+
+      <!-- Nome do titular primeiro -->
+      <div class="form-row">
+        <label for="card-holder-name">
+          Nome do titular *
+          <span class="sr-only">(obrigatório)</span>
+        </label>
+        <input
+          type="text"
+          id="card-holder-name"
+          class="form-control"
+          placeholder="Nome como está no cartão"
+          required
+          autocomplete="cc-name"
+          aria-describedby="name-error name-hint"
+          maxlength="100"
+        />
+        <div id="name-hint" class="field-hint">
+          Digite o nome exatamente como aparece no cartão
+        </div>
+        <div id="name-error" role="alert" class="error-message hidden"></div>
+      </div>
+
+      <!-- Campos personalizados do cartão -->
+      <div class="form-row">
+        <label for="card-number-element">
+          Número do cartão *
+          <span class="sr-only">(obrigatório)</span>
+        </label>
+        <div class="card-input-wrapper">
+          <div
+            id="card-number-element"
+            class="stripe-element"
+            role="textbox"
+            aria-describedby="card-error card-hint"
+            aria-label="Número do cartão de crédito"
+          >
+            <!-- Stripe injeta o campo do número -->
+          </div>
+          <div
+            id="card-brand-icon"
+            class="card-brand-icon-inside"
+            aria-hidden="true"
+          >
+            <!-- Ícone da bandeira será inserido aqui -->
+          </div>
+        </div>
+        <div id="card-hint" class="field-hint">
+          Aceitamos Visa, Mastercard, Elo e American Express
+        </div>
+        <div id="card-error" role="alert" class="error-message hidden"></div>
+      </div>
+
+      <div class="form-row two-col">
+        <div class="form-group">
+          <label for="card-expiry">
+            Validade *
+            <span class="sr-only">(obrigatório)</span>
+          </label>
+          <div
+            id="card-expiry-element"
+            class="stripe-element"
+            role="textbox"
+            aria-describedby="expiry-error"
+            aria-label="Data de validade do cartão"
+          >
+            <!-- Stripe injeta o campo de validade -->
+          </div>
+          <div
+            id="expiry-error"
+            role="alert"
+            class="error-message hidden"
+          ></div>
+        </div>
+        <div class="form-group">
+          <label for="card-cvc">
+            CVV *
+            <span class="sr-only">(código de segurança obrigatório)</span>
+          </label>
+          <div
+            id="card-cvc-element"
+            class="stripe-element"
+            role="textbox"
+            aria-describedby="cvc-error cvc-hint"
+            aria-label="Código de segurança do cartão"
+          >
+            <!-- Stripe injeta o campo CVV -->
+          </div>
+          <div id="cvc-hint" class="field-hint">
+            3 ou 4 dígitos no verso do cartão
+          </div>
+          <div id="cvc-error" role="alert" class="error-message hidden"></div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="amount-input">
+            Valor do pagamento *
+            <span class="sr-only">(obrigatório)</span>
+          </label>
+          <input
+            type="text"
+            id="amount-input"
+            class="form-control"
+            placeholder="R$ 100,00"
+            value="100,00"
+            required
+            aria-describedby="amount-error amount-hint"
+            inputmode="decimal"
+          />
+          <div id="amount-hint" class="field-hint">Valor mínimo: R$ 0,50</div>
+          <div
+            id="amount-error"
+            role="alert"
+            class="error-message hidden"
+          ></div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="total-amount">Valor total</label>
+          <div id="total-amount" class="total-display" aria-live="polite">
+            R$ 100,00
+          </div>
+        </div>
+      </div>
+
+      <button id="submit" type="submit" aria-describedby="submit-error">
+        <div class="spinner hidden" id="spinner" aria-hidden="true"></div>
+        <span id="button-text">Confirmar pagamento</span>
+      </button>
+
+      <div id="submit-error" role="alert" class="error-message hidden"></div>
+      <div id="payment-message" class="hidden" aria-live="polite"></div>
+
+      <!-- Loading overlay -->
+      <div
+        id="loading-overlay"
+        class="loading-overlay hidden"
+        aria-hidden="true"
+      >
+        <div class="loading-content">
+          <div class="loading-spinner"></div>
+          <p>Processando pagamento...</p>
+          <p class="loading-subtitle">Não feche esta janela</p>
+        </div>
+      </div>
+    </form>
+
+    <!-- Payment status page -->
+    <div id="payment-status" class="hidden">
+      <div id="status-icon" role="img" aria-describedby="status-text">
+        <!-- Ícone será inserido pelo JS -->
+      </div>
+      <h2 id="status-text"><!-- Status será inserido pelo JS --></h2>
+      <div id="details-table" class="hidden">
+        <table role="table">
+          <tbody>
+            <tr>
+              <td class="TableLabel">ID da transação</td>
+              <td class="TableContent" id="transaction-id">-</td>
+            </tr>
+            <tr>
+              <td class="TableLabel">Valor</td>
+              <td class="TableContent" id="transaction-amount">-</td>
+            </tr>
+            <tr>
+              <td class="TableLabel">Status</td>
+              <td class="TableContent" id="transaction-status">-</td>
+            </tr>
+            <tr>
+              <td class="TableLabel">Data/Hora</td>
+              <td class="TableContent" id="transaction-date">-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <a id="view-details" href="#" class="hidden">Ver detalhes</a>
+      <button id="retry-button" class="hidden" type="button">
+        Tentar novamente
+      </button>
+      <a id="new-payment" href="checkout.html">Novo pagamento</a>
+    </div>
+
+    <!-- Screen reader only content -->
+    <div class="sr-only" aria-live="assertive" id="sr-announcements"></div>
+  </body>
+</html>
